@@ -1,0 +1,123 @@
+# ==========================================================
+#  miniserve 快速启动配置
+#  修改后重新运行 start.bat 生效
+#  说明：
+#   - 以 # 开头的行为注释
+#   - 以 ; 开头的行也会被忽略
+#   - 路径默认相对于 start.bat 所在目录
+# ==========================================================
+
+# 监听端口
+PORT=8000
+
+# 要共享的目录（相对 start.bat 目录；也可写绝对路径）
+# . 表示共享 start.bat 所在目录
+SERVE_DIR=D:\00_myDoc\Git\Skills
+
+# 允许上传的目标目录（虚拟路径，相对 SERVE_DIR）
+# 留空 = 共享目录内任意位置都可以上传
+# 例如：UPLOAD_DIR=/upload 表示只能上传到 <SERVE_DIR>/upload
+UPLOAD_DIR=/upload
+
+# 是否允许通过接口创建目录（0/1）—— 上传多级目录时建议开启
+MKDIR=1
+
+# 同名文件的处理方式：error / overwrite / rename
+ON_DUPLICATE=rename
+
+# 允许上传的文件类型限制（可选，留空不限制）
+# 可选值：image / audio / video
+MEDIA_TYPE=
+
+# 是否显示隐藏文件（0/1）
+HIDDEN=0
+
+# 是否输出访问日志（0/1）
+VERBOSE=1
+
+# 是否自动打开浏览器（0/1）
+OPEN_BROWSER=0
+
+# 是否生成目录索引（0 = 关闭索引，1 = 打开，2 = 不设置）
+# 1 关闭后访问目录会报错，适合只做下载服务器的场景
+DISABLE_INDEXING=0
+
+# 目录首页文件（可选，如 index.html；留空则自动生成列表页）
+# 填写后：start.bat 会把 web\home.html 部署到共享目录及其所有子目录
+INDEX=index.html
+
+# 是否把首页样式铺到共享目录的所有子目录（0/1）
+# 0 = 只有根目录是自定义首页，子目录用 miniserve 官方列表页
+#     （官方页才有：目录打包下载 ?download=zip / 搜索 / 排序 / 删除按钮）——推荐
+# 1 = 每层都是自定义首页（样式统一，但子目录失去官方打包下载功能）
+RECURSIVE_INDEX=1
+
+# 官方打包下载（目录 -> zip / tar.gz），官方列表页会显示下载按钮
+ENABLE_TAR_GZ=0
+ENABLE_ZIP=1
+ENABLE_TAR=0
+
+# 官方配色主题（squirrel=浅色，其余为深色）
+COLOR_SCHEME=squirrel
+COLOR_SCHEME_DARK=archlinux
+
+# 是否开启只读 WebDAV（0/1）：首页用它来动态列出文件目录
+ENABLE_WEBDAV=1
+
+# 每次启动都用 web\home.html 覆盖共享目录里的首页（0=保留你自己改过的首页）
+INDEX_REFRESH=0
+
+# 是否允许删除文件/目录（0/1）—— 官方列表页会出现 ✗ 按钮，首页会出现 🗑 按钮
+ALLOW_DELETE=1
+
+# 允许删除的目录（相对 SERVE_DIR，不带前导斜杠）
+# 留空 = 默认跟随 UPLOAD_DIR
+# 例如：RM_DIR=upload 表示只有 upload 目录里的东西能删
+# 注意：miniserve 允许删除该目录本身，这里由首页逻辑 + 守护进程双重保护
+RM_DIR=
+
+# 上传目录守护（0/1）
+# miniserve 的删除接口允许把上传目录本身删掉（删了大家就传不了文件），
+# 开启后会自动检测并重建被删掉的上传目录
+GUARD_UPLOAD=1
+
+# 是否开启响应压缩（0/1）
+# 评估见 README 第 7 节：局域网内默认关闭；纯文本/代码分享可开启
+COMPRESS=0
+
+# 是否把日志保存到本地文件（0/1）
+# 开启后终端照常显示，同时写入 LOG_FILE 指定的文件
+LOG_TO_FILE=1
+
+# 日志文件路径（相对 start.bat 目录）
+LOG_FILE=logs\miniserve.log
+
+# 日志大小上限（MB），超过则自动轮转为 .log.1（再旧一份为 .log.2）
+# 设为 0 表示不轮转
+LOG_MAX_MB=10
+
+# 是否开启 Pretty URLs（0/1）：/about 自动找 about.html
+PRETTY_URLS=0
+
+# 是否开启 SPA 模式（0/1）：404 时返回 INDEX 指定的文件
+SPA=0
+
+# 目录列表排序方式：name / size / date
+SORTING_METHOD=name
+
+# 目录列表排序顺序：asc / desc
+SORTING_ORDER=desc
+
+# ---------------- 认证（可选，不需要就把下面两行注释掉） ----------------
+
+# 单用户认证，格式 用户名:明文密码
+# 建议改成 用户名:sha256:哈希
+# AUTH=admin:123456
+
+# 多用户认证文件（每行一个 用户名:密码），设置了它就忽略上面的 AUTH
+# AUTH_FILE=auth.txt
+
+# 路由前缀（可选，如 /files 则访问 http://localhost:8000/files/）
+# 注意：带前缀时首页的 favicon 路径会自动跟着加前缀
+#ROUTE_PREFIX=/files
+

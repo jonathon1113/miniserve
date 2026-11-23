@@ -1,0 +1,24 @@
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# 敏感信息 —— 绝不提交
+logs
+_*
+*.env
+.env.*
+*secret*
+*credential*
+*.pem
+*.key
+notes-*.txt
+
+# 压缩文件
+__pycache__/
+*.pyc
+*.zip
+*.7z
+*.rar
